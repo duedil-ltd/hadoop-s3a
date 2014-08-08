@@ -96,6 +96,12 @@ public class S3AInputStream extends FSInputStream {
 
   @Override
   public synchronized void seek(long pos) throws IOException {
+    if (closed) {
+      throw new IOException("Stream closed");
+    }
+
+    openIfNeeded();
+
     if (this.pos == pos) {
       return;
     }
